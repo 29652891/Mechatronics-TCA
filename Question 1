@@ -1,0 +1,46 @@
+// CODE FOR QUESTION 1
+
+#include <LiquidCrystal.h>
+
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+int SIGPin = 13;
+ 
+
+long measureDistance() {
+  
+  pinMode(SIGPin, OUTPUT);
+  digitalWrite(SIGPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(SIGPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(SIGPin, LOW);
+ 
+ 
+  pinMode(SIGPin, INPUT);
+  long duration = pulseIn(SIGPin, HIGH, 30000);
+  if (duration == 0) return 999;
+  return duration * 0.034 / 2;
+}
+void setup() {
+  lcd.begin(16, 2);
+  lcd.print("Distance Measure");
+  delay(1500);
+  lcd.clear();
+}
+ 
+void loop() {
+ 
+  long distance = measureDistance();
+ 
+  lcd.setCursor(0, 0);
+  lcd.print("Distacne: ");
+  if (distance >= 999) {
+    lcd.print("---   ");
+  } else {
+    lcd.print(distance);
+    lcd.print("cm    ");
+  }
+ 
+  delay(200);
+}

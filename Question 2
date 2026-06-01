@@ -1,0 +1,35 @@
+// CODE FOR QUESTION 2
+// Define Pins
+
+int potpin = A5;
+int enable = 10;
+int input1 = 8;
+int input2 = 9;
+
+
+int potvalue = 0;
+int motorSpeed = 0;
+
+void setup() {
+  pinMode(enable, OUTPUT);
+  pinMode(input1, OUTPUT);
+  pinMode(input2, OUTPUT);
+}
+
+void loop() {
+  potvalue = analogRead(potpin);
+  
+  motorSpeed = map(potvalue, 0, 1023, 0, 256);
+
+  analogWrite(enable, motorSpeed);
+
+  if (potvalue > 512) {
+    digitalWrite(input1, HIGH);
+    digitalWrite(input2, LOW);
+  } else {
+    digitalWrite(input1, LOW);
+    digitalWrite(input2, HIGH);
+  }
+
+  delay(10);
+}
